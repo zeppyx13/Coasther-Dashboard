@@ -41,30 +41,38 @@ export default function LoginForm() {
         e.preventDefault();
 
         if (!email.trim() || !password.trim()) {
-            await Swal.fire({
+            return Swal.fire({
                 icon: "warning",
                 title: "Form belum lengkap",
                 text: "Email dan password wajib diisi.",
                 confirmButtonColor: "#7B1113",
             });
-            return;
         }
 
         try {
             setIsLoading(true);
 
-            const response = await api.post<LoginResponse>("/api/auth/login", {
+            const { data } = await api.post<LoginResponse>("/api/auth/login", {
                 email,
                 password,
                 rememberMe,
             });
 
-            const result = response.data;
-            const token = result?.data?.token || result?.token;
-            const user = result?.data?.user || result?.user;
+            const token = data?.data?.token || data?.token;
+            const user = data?.data?.user || data?.user;
 
-            if (!token) {
-                throw new Error("Token tidak ditemukan dari response backend.");
+            if (!token || !user) {
+                throw new Error("Response login tidak valid");
+            }
+
+            if (!["admin", "manager"].includes(user.role ?? "")) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "Akses ditolak",
+                    text: "Hanya admin dan manager yang dapat mengakses dashboard.",
+                    confirmButtonColor: "#7B1113",
+                });
+                return;
             }
 
             setAuth(token, user);
@@ -72,11 +80,11 @@ export default function LoginForm() {
             await Swal.fire({
                 icon: "success",
                 title: "Login berhasil",
-                text: result?.message || "Selamat datang di dashboard admin Coasther.",
+                text: data?.message || "Selamat datang di dashboard Coasther.",
                 confirmButtonColor: "#7B1113",
             });
 
-            router.push("/admin/dashboard");
+            router.push("/dashboard");
             router.refresh();
         } catch (error: any) {
             const message =
@@ -94,7 +102,6 @@ export default function LoginForm() {
             setIsLoading(false);
         }
     }
-
     return (
         <form onSubmit={handleSubmit} className="space-y-5">
             <div>

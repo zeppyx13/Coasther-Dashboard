@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 
-const TOKEN_KEY = "coasther_admin_token";
-const USER_KEY = "coasther_admin_user";
+const TOKEN_KEY = "coasther_token";
+const USER_KEY = "coasther_user";
 
 export function setAuth(token: string, user?: unknown) {
     Cookies.set(TOKEN_KEY, token, { expires: 7, sameSite: "Lax" });

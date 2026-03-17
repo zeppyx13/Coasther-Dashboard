@@ -16,13 +16,11 @@ type BackgroundResponse = {
 };
 
 async function getBackgroundImage() {
+  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000"}/api/unsplash/background`,
-      {
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`${API}/api/unsplash/background`, {
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       throw new Error("Failed to fetch background");
