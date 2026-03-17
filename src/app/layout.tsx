@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter, Poppins } from "next/font/google";
-
+import QueryProvider from "@/components/providers/query-provider";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${poppins.variable}`}>
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

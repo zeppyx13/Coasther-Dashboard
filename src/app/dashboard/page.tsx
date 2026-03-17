@@ -1,9 +1,9 @@
 import DashboardShell from "@/components/dashboard/dashboard-shell";
-import StatCard from "@/components/dashboard/stat-card";
 import ChartPlaceholder from "@/components/dashboard/chart-placeholder";
 import ActivityList from "@/components/dashboard/activity-list";
 import RoomsTable from "@/components/dashboard/rooms-table";
 import SummaryCard from "@/components/dashboard/summary-card";
+import DashboardStatsSection from "@/components/dashboard/dashboard-stats-section";
 import {
     activities,
     monthlyUsage,
@@ -16,11 +16,7 @@ import {
 export default function AdminDashboardPage() {
     return (
         <DashboardShell menus={sidebarMenus}>
-            <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                {stats.map((item) => (
-                    <StatCard key={item.title} item={item} />
-                ))}
-            </section>
+            <DashboardStatsSection />
 
             <section className="grid gap-6 xl:grid-cols-3">
                 <ChartPlaceholder values={monthlyUsage} />
