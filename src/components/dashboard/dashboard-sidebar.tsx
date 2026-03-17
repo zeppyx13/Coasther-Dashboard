@@ -1,13 +1,58 @@
+"use client";
+
+import {
+    LogOut,
+    Home,
+    BedDouble,
+    Users,
+    FileText,
+    CreditCard,
+    Settings,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 import SidebarItem from "./sidebar-item";
-import type { SidebarMenuItem } from "@/types/dashboard";
+import type { SidebarIconName, SidebarMenuItem } from "@/types/dashboard";
+import { clearAuth } from "@/lib/auth";
 
 type DashboardSidebarProps = {
     menus: SidebarMenuItem[];
 };
 
+const iconMap: Record<SidebarIconName, LucideIcon> = {
+    home: Home,
+    bedDouble: BedDouble,
+    users: Users,
+    fileText: FileText,
+    creditCard: CreditCard,
+    settings: Settings,
+};
+
 export default function DashboardSidebar({
     menus,
 }: DashboardSidebarProps) {
+    const router = useRouter();
+
+    async function handleLogout() {
+        const result = await Swal.fire({
+            title: "Logout?",
+            text: "Anda akan keluar dari dashboard.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, logout",
+            cancelButtonText: "Batal",
+            confirmButtonColor: "#b91c1c",
+            cancelButtonColor: "#7B1113",
+        });
+
+        if (!result.isConfirmed) return;
+
+        clearAuth();
+        router.push("/");
+        router.refresh();
+    }
+
     return (
         <aside className="hidden w-72 flex-col border-r border-[#EAEAEA] bg-white lg:flex">
             <div className="border-b border-[#EAEAEA] px-6 py-5">
@@ -21,14 +66,18 @@ export default function DashboardSidebar({
 
             <nav className="flex-1 px-4 py-6">
                 <div className="space-y-2">
-                    {menus.map((menu) => (
-                        <SidebarItem
-                            key={menu.label}
-                            icon={menu.icon}
-                            label={menu.label}
-                            active={menu.active}
-                        />
-                    ))}
+                    {menus.map((menu) => {
+                        const Icon = iconMap[menu.iconName];
+
+                        return (
+                            <SidebarItem
+                                key={menu.label}
+                                icon={Icon}
+                                label={menu.label}
+                                active={menu.active}
+                            />
+                        );
+                    })}
                 </div>
             </nav>
 
@@ -41,6 +90,15 @@ export default function DashboardSidebar({
                     <p className="mt-1 font-inter text-xs text-[#7B1113]">
                         admin@coasther.com
                     </p>
+
+                    <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 px-4 py-3 font-inter text-sm font-medium text-red-600 transition hover:bg-red-100"
+                    >
+                        <LogOut size={18} />
+                        Logout
+                    </button>
                 </div>
             </div>
         </aside>

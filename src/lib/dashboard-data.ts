@@ -1,27 +1,23 @@
-import {
-    Home,
-    BedDouble,
-    Users,
-    FileText,
-    CreditCard,
-    Settings,
-    Droplets,
-    Zap,
-} from "lucide-react";
 import type {
     ActivityItem,
     RoomItem,
     SidebarMenuItem,
     StatItem,
 } from "@/types/dashboard";
+import {
+    BedDouble,
+    Users,
+    Droplets,
+    Zap,
+} from "lucide-react";
 
 export const sidebarMenus: SidebarMenuItem[] = [
-    { label: "Dashboard", icon: Home, active: true },
-    { label: "Kamar", icon: BedDouble },
-    { label: "Penghuni", icon: Users },
-    { label: "Tagihan", icon: FileText },
-    { label: "Pembayaran", icon: CreditCard },
-    { label: "Pengaturan", icon: Settings },
+    { label: "Dashboard", iconName: "home", active: true },
+    { label: "Kamar", iconName: "bedDouble" },
+    { label: "Penghuni", iconName: "users" },
+    { label: "Tagihan", iconName: "fileText" },
+    { label: "Pembayaran", iconName: "creditCard" },
+    { label: "Pengaturan", iconName: "settings" },
 ];
 
 export const stats: StatItem[] = [
