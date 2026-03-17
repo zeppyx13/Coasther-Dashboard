@@ -55,7 +55,7 @@ export default async function Home() {
             <div className="absolute inset-0 bg-[#EAEAEA]" />
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-br from-[#2F2F2F]/55 via-[#7B1113]/45 to-[#2F2F2F]/65" />
+          <div className="absolute inset-0 bg-linear-to-br from-[#2F2F2F]/55 via-[#7B1113]/45 to-[#2F2F2F]/65" />
 
           <div className="relative z-10 flex h-full flex-col justify-between p-10 text-white">
             <div>
