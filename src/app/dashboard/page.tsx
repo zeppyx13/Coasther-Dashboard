@@ -30,7 +30,7 @@ export default function AdminDashboardPage() {
             <section className="grid gap-6 xl:grid-cols-3">
                 <ChartPlaceholder values={monthlyUsage} />
                 {isComplaintsLoading ? (
-                    <div className="rounded-[24px] border border-[#EAEAEA] bg-white p-6">
+                    <div className="rounded-3xl border border-[#EAEAEA] bg-white p-6">
                         <p className="font-inter text-sm text-[#777]">Memuat complaints...</p>
                     </div>
                 ) : (
