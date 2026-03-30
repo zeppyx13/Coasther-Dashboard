@@ -30,3 +30,31 @@ export type ActivityItem = {
     title: string;
     time: string;
 };
+
+export type ComplaintStatus = "open" | "in_progress" | "closed";
+
+export type ComplaintItem = {
+    id: number;
+    room_id: number;
+    title: string;
+    status: ComplaintStatus;
+    created_at: string;
+    closed_at: string | null;
+    room_number: string;
+    room_floor: number;
+};
+
+export type ComplaintMeta = {
+    total: number;
+    page: number;
+    limit: number;
+};
+
+export type ComplaintsResponse = {
+    success: boolean;
+    message: string;
+    data: {
+        complaints: ComplaintItem[];
+        meta: ComplaintMeta;
+    };
+};
