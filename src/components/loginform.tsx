@@ -4,43 +4,25 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
-import { api } from "@/lib/api";
+import { login } from "@/lib/auth-api";
 import { setAuth } from "@/lib/auth";
-
-type LoginResponse = {
-    success?: boolean;
-    message?: string;
-    token?: string;
-    data?: {
-        token?: string;
-        user?: {
-            id?: number | string;
-            name?: string;
-            email?: string;
-            role?: string;
-        };
-    };
-    user?: {
-        id?: number | string;
-        name?: string;
-        email?: string;
-        role?: string;
-    };
-};
 
 export default function LoginForm() {
     const router = useRouter();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [form, setForm] = useState({
+        email: "",
+        password: "",
+        rememberMe: false,
+    });
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        if (!email.trim() || !password.trim()) {
+        if (!form.email.trim() || !form.password.trim()) {
             return Swal.fire({
                 icon: "warning",
                 title: "Form belum lengkap",
@@ -52,27 +34,10 @@ export default function LoginForm() {
         try {
             setIsLoading(true);
 
-            const { data } = await api.post<LoginResponse>("/api/auth/login", {
-                email,
-                password,
-                rememberMe,
-            });
+            const { token, user } = await login(form);
 
-            const token = data?.data?.token || data?.token;
-            const user = data?.data?.user || data?.user;
-
-            if (!token || !user) {
-                throw new Error("Response login tidak valid");
-            }
-
-            if (!["admin", "manager"].includes(user.role ?? "")) {
-                await Swal.fire({
-                    icon: "error",
-                    title: "Akses ditolak",
-                    text: "Hanya admin dan manager yang dapat mengakses dashboard.",
-                    confirmButtonColor: "#7B1113",
-                });
-                return;
+            if (!["admin", "manager"].includes(user.role)) {
+                throw new Error("Akses ditolak");
             }
 
             setAuth(token, user);
@@ -80,7 +45,7 @@ export default function LoginForm() {
             await Swal.fire({
                 icon: "success",
                 title: "Login berhasil",
-                text: data?.message || "Selamat datang di dashboard Coasther.",
+                text: "Selamat datang di dashboard Coasther.",
                 confirmButtonColor: "#7B1113",
             });
 
@@ -102,6 +67,7 @@ export default function LoginForm() {
             setIsLoading(false);
         }
     }
+
     return (
         <form onSubmit={handleSubmit} className="space-y-5">
             <div>
@@ -115,8 +81,10 @@ export default function LoginForm() {
                     id="email"
                     type="email"
                     placeholder="admin@coasther.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={form.email}
+                    onChange={(e) =>
+                        setForm({ ...form, email: e.target.value })
+                    }
                     className="w-full rounded-2xl border border-[#EAEAEA] bg-[#FAFAFA] px-4 py-3 font-inter text-sm text-[#2F2F2F] outline-none transition focus:border-[#7B1113] focus:bg-white"
                 />
             </div>
@@ -134,17 +102,25 @@ export default function LoginForm() {
                         id="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={form.password}
+                        onChange={(e) =>
+                            setForm({ ...form, password: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-[#EAEAEA] bg-[#FAFAFA] px-4 py-3 pr-12 font-inter text-sm text-[#2F2F2F] outline-none transition focus:border-[#7B1113] focus:bg-white"
                     />
 
                     <button
                         type="button"
-                        onClick={() => setShowPassword((prev) => !prev)}
+                        onClick={() =>
+                            setShowPassword((prev) => !prev)
+                        }
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-[#666] transition hover:text-[#7B1113]"
                     >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        {showPassword ? (
+                            <EyeOff size={18} />
+                        ) : (
+                            <Eye size={18} />
+                        )}
                     </button>
                 </div>
             </div>
@@ -153,8 +129,13 @@ export default function LoginForm() {
                 <label className="flex items-center gap-2 font-inter text-[#666]">
                     <input
                         type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
+                        checked={form.rememberMe}
+                        onChange={(e) =>
+                            setForm({
+                                ...form,
+                                rememberMe: e.target.checked,
+                            })
+                        }
                         className="h-4 w-4 rounded border border-[#D9D9D9]"
                     />
                     Ingat saya
@@ -173,7 +154,9 @@ export default function LoginForm() {
                 disabled={isLoading}
                 className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#7B1113] px-4 py-3 font-poppins text-sm font-semibold text-[#C6A971] shadow-[0_8px_20px_rgba(123,17,19,0.22)] transition hover:scale-[1.01] hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
             >
-                {isLoading && <LoaderCircle size={18} className="animate-spin" />}
+                {isLoading && (
+                    <LoaderCircle size={18} className="animate-spin" />
+                )}
                 {isLoading ? "Memproses..." : "Masuk"}
             </button>
         </form>
