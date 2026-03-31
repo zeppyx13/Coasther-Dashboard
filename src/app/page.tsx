@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LoginForm from "@/components/loginform";
+import LoginForm from "@/components/login/loginform";
 
 type BackgroundResponse = {
   success: boolean;

@@ -1,6 +1,6 @@
 "use client";
 
-import SectionCard from "./section-card";
+import SectionCard from "../section-card";
 import type { ComplaintItem } from "@/types/dashboard";
 
 type ComplaintsListProps = {

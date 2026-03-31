@@ -79,6 +79,7 @@ export default function LoginForm() {
                 </label>
                 <input
                     id="email"
+                    autoComplete="off"
                     type="email"
                     placeholder="admin@coasther.com"
                     value={form.email}
@@ -106,6 +107,7 @@ export default function LoginForm() {
                         onChange={(e) =>
                             setForm({ ...form, password: e.target.value })
                         }
+                        autoComplete="off"
                         className="w-full rounded-2xl border border-[#EAEAEA] bg-[#FAFAFA] px-4 py-3 pr-12 font-inter text-sm text-[#2F2F2F] outline-none transition focus:border-[#7B1113] focus:bg-white"
                     />
 
