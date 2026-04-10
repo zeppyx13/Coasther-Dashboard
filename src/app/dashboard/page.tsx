@@ -3,7 +3,7 @@
 import DashboardShell from "@/components/dashboard/nav/dashboard-shell";
 import ChartPlaceholder from "@/components/dashboard/chart-placeholder";
 import ComplaintsSection from "@/components/dashboard/complaint/complaints-section";
-import RoomsTable from "@/components/dashboard/rooms-table";
+import RoomsSection from "@/components/dashboard/rooms/rooms-section";
 import SummaryCard from "@/components/dashboard/summary-card";
 import DashboardStatsSection from "@/components/dashboard/stat/dashboard-stats-section";
 import {
@@ -19,12 +19,12 @@ export default function AdminDashboardPage() {
             <DashboardStatsSection />
 
             <section className="grid gap-6 xl:grid-cols-3">
-                <ChartPlaceholder values={monthlyUsage} />
+                <ChartPlaceholder />
                 <ComplaintsSection />
             </section>
 
             <section className="grid gap-6 xl:grid-cols-3">
-                <RoomsTable rooms={rooms} />
+                <RoomsSection />
                 <SummaryCard
                     totalIncome="Rp5.420.000"
                     items={summaryItems}

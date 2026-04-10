@@ -12,3 +12,16 @@ export type DashboardStatsResponse = {
         electricityStatus: string;
     };
 };
+export type ChartDataPoint = {
+    month: string;      // "2025-09"
+    water_used: number; // m³
+    elec_used: number;  // kWh
+};
+
+export type DashboardChartResponse = {
+    success: boolean;
+    message: string;
+    data: {
+        chart: ChartDataPoint[];
+    };
+};
