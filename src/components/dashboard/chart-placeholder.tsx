@@ -1,4 +1,3 @@
-// src/components/dashboard/chart-placeholder.tsx
 "use client";
 
 import { useState } from "react";
@@ -23,6 +22,8 @@ export default function UsageChart() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["dashboard-chart"],
         queryFn: () => getDashboardChart(8),
+        refetchInterval: 5 * 60 * 1000,
+        staleTime: 4 * 60 * 1000,
     });
 
     const chart: ChartDataPoint[] = data?.data?.chart ?? [];
@@ -35,7 +36,6 @@ export default function UsageChart() {
 
     return (
         <SectionCard className="xl:col-span-2">
-            {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
                     <p className="font-inter text-sm text-[#666]">Statistik Penggunaan</p>
@@ -49,13 +49,12 @@ export default function UsageChart() {
                 </div>
             </div>
 
-            {/* Toggle */}
             <div className="mt-4 flex gap-2">
                 <button
                     onClick={() => setMode("water")}
                     className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-inter text-xs transition-colors ${mode === "water"
-                        ? "bg-[#7B1113] text-white"
-                        : "bg-[#F0F0F0] text-[#666] hover:bg-[#E5E5E5]"
+                            ? "bg-[#7B1113] text-white"
+                            : "bg-[#F0F0F0] text-[#666] hover:bg-[#E5E5E5]"
                         }`}
                 >
                     <Droplets size={12} />
@@ -64,8 +63,8 @@ export default function UsageChart() {
                 <button
                     onClick={() => setMode("elec")}
                     className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-inter text-xs transition-colors ${mode === "elec"
-                        ? "bg-[#7B1113] text-white"
-                        : "bg-[#F0F0F0] text-[#666] hover:bg-[#E5E5E5]"
+                            ? "bg-[#7B1113] text-white"
+                            : "bg-[#F0F0F0] text-[#666] hover:bg-[#E5E5E5]"
                         }`}
                 >
                     <Zap size={12} />
@@ -73,7 +72,6 @@ export default function UsageChart() {
                 </button>
             </div>
 
-            {/* Chart */}
             <div className="mt-4 flex h-56 items-end gap-3 rounded-3xl bg-[#FAFAFA] p-6">
                 {isLoading &&
                     Array.from({ length: 8 }).map((_, i) => (
@@ -105,14 +103,13 @@ export default function UsageChart() {
                                 key={d.month}
                                 className="group relative flex flex-1 flex-col items-center gap-2"
                             >
-                                {/* Tooltip */}
                                 <div className="invisible absolute bottom-full mb-2 left-1/2 -translate-x-1/2 group-hover:visible rounded-lg bg-[#2F2F2F] px-2 py-1 text-xs text-white whitespace-nowrap z-10">
                                     {val.toFixed(2)} {mode === "water" ? "m³" : "kWh"}
                                 </div>
                                 <div
                                     className={`w-full rounded-t-2xl transition-all duration-300 ${isCurrentMonth
-                                        ? "bg-[#7B1113]"
-                                        : "bg-[#7B1113]/70"
+                                            ? "bg-[#7B1113]"
+                                            : "bg-[#7B1113]/70"
                                         }`}
                                     style={{ height: `${barH}px` }}
                                 />
