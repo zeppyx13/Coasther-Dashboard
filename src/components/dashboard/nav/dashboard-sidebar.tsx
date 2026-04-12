@@ -1,22 +1,16 @@
 "use client";
 
 import {
-    LogOut,
-    Home,
-    BedDouble,
-    Users,
-    FileText,
-    CreditCard,
-    Settings,
+    LogOut, Home, BedDouble, Users,
+    FileText, CreditCard, Settings,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import SidebarItem from "./sidebar-item";
 import type { SidebarIconName, SidebarMenuItem } from "@/types/dashboard";
-import { useState, useEffect } from "react";
 import { clearAuth, getUser } from "@/lib/auth";
-
 
 type DashboardSidebarProps = {
     menus: SidebarMenuItem[];
@@ -31,10 +25,15 @@ const iconMap: Record<SidebarIconName, LucideIcon> = {
     settings: Settings,
 };
 
-export default function DashboardSidebar({
-    menus,
-}: DashboardSidebarProps) {
+export default function DashboardSidebar({ menus }: DashboardSidebarProps) {
     const router = useRouter();
+    const pathname = usePathname();
+
+    const [user, setUser] = useState<{ name?: string; email?: string } | null>(null);
+
+    useEffect(() => {
+        setUser(getUser());
+    }, []);
 
     async function handleLogout() {
         const result = await Swal.fire({
@@ -54,11 +53,7 @@ export default function DashboardSidebar({
         router.push("/");
         router.refresh();
     }
-    const [user, setUser] = useState<{ name?: string; email?: string } | null>(null);
 
-    useEffect(() => {
-        setUser(getUser());
-    }, []);
     return (
         <aside className="hidden w-72 flex-col border-r border-[#EAEAEA] bg-white lg:flex">
             <div className="border-b border-[#EAEAEA] px-6 py-5">
@@ -75,12 +70,19 @@ export default function DashboardSidebar({
                     {menus.map((menu) => {
                         const Icon = iconMap[menu.iconName];
 
+                        // exact match untuk dashboard, startsWith untuk halaman lain
+                        const isActive =
+                            menu.href === "/dashboard"
+                                ? pathname === "/dashboard"
+                                : pathname.startsWith(menu.href);
+
                         return (
                             <SidebarItem
                                 key={menu.label}
                                 icon={Icon}
                                 label={menu.label}
-                                active={menu.active}
+                                href={menu.href}
+                                active={isActive}
                             />
                         );
                     })}
@@ -91,10 +93,10 @@ export default function DashboardSidebar({
                 <div className="rounded-2xl bg-[#F8F8F8] p-4">
                     <p className="font-inter text-xs text-[#666]">Login sebagai</p>
                     <p className="mt-1 font-poppins text-sm font-semibold text-[#2F2F2F]">
-                        {user?.name}
+                        {user?.name ?? "Admin"}
                     </p>
                     <p className="mt-1 font-inter text-xs text-[#7B1113]">
-                        {user?.email}
+                        {user?.email ?? "-"}
                     </p>
 
                     <button

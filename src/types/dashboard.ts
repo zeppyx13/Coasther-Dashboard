@@ -17,7 +17,7 @@ export type SidebarIconName =
 export type SidebarMenuItem = {
     label: string;
     iconName: SidebarIconName;
-    active?: boolean;
+    href: string;
 };
 export type RoomItem = {
     name: string;

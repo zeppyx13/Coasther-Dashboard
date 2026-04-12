@@ -12,12 +12,12 @@ import {
 } from "lucide-react";
 
 export const sidebarMenus: SidebarMenuItem[] = [
-    { label: "Dashboard", iconName: "home", active: true },
-    { label: "Kamar", iconName: "bedDouble" },
-    { label: "Penghuni", iconName: "users" },
-    { label: "Tagihan", iconName: "fileText" },
-    { label: "Pembayaran", iconName: "creditCard" },
-    { label: "Pengaturan", iconName: "settings" },
+    { label: "Dashboard", iconName: "home", href: "/dashboard" },
+    { label: "Kamar", iconName: "bedDouble", href: "/dashboard/kamar" },
+    { label: "Penghuni", iconName: "users", href: "/dashboard/penghuni" },
+    { label: "Tagihan", iconName: "fileText", href: "/dashboard/tagihan" },
+    { label: "Pembayaran", iconName: "creditCard", href: "/dashboard/pembayaran" },
+    { label: "Pengaturan", iconName: "settings", href: "/dashboard/pengaturan" },
 ];
 
 export const rooms: RoomItem[] = [
