@@ -1,11 +1,24 @@
-import { Bell, Search } from "lucide-react";
+"use client";
 
+import { Bell, Search } from "lucide-react";
+import { getUser } from "@/lib/auth";
+import { useState, useEffect } from "react";
 export default function DashboardTopbar() {
+    const [user, setUser] = useState<{ name?: string } | null>(null);
+
+    useEffect(() => {
+        setUser(getUser());
+    }, []);
+
+    const firstName = user?.name?.split(" ")[0] ?? "Admin";
+
     return (
         <header className="sticky top-0 z-10 border-b border-[#EAEAEA] bg-white/90 backdrop-blur">
             <div className="flex flex-col gap-4 px-6 py-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <p className="font-inter text-sm text-[#666]">Selamat datang kembali</p>
+                    <p className="font-inter text-sm text-[#666]">
+                        Selamat datang kembali, <span className="font-semibold text-[#2F2F2F]">{firstName}</span>
+                    </p>
                     <h2 className="font-poppins text-2xl font-bold text-[#2F2F2F]">
                         Dashboard Overview
                     </h2>

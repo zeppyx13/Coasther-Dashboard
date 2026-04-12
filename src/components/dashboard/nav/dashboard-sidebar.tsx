@@ -14,7 +14,9 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import SidebarItem from "./sidebar-item";
 import type { SidebarIconName, SidebarMenuItem } from "@/types/dashboard";
-import { clearAuth } from "@/lib/auth";
+import { useState, useEffect } from "react";
+import { clearAuth, getUser } from "@/lib/auth";
+
 
 type DashboardSidebarProps = {
     menus: SidebarMenuItem[];
@@ -52,7 +54,11 @@ export default function DashboardSidebar({
         router.push("/");
         router.refresh();
     }
+    const [user, setUser] = useState<{ name?: string; email?: string } | null>(null);
 
+    useEffect(() => {
+        setUser(getUser());
+    }, []);
     return (
         <aside className="hidden w-72 flex-col border-r border-[#EAEAEA] bg-white lg:flex">
             <div className="border-b border-[#EAEAEA] px-6 py-5">
@@ -85,10 +91,10 @@ export default function DashboardSidebar({
                 <div className="rounded-2xl bg-[#F8F8F8] p-4">
                     <p className="font-inter text-xs text-[#666]">Login sebagai</p>
                     <p className="mt-1 font-poppins text-sm font-semibold text-[#2F2F2F]">
-                        Admin Coasther
+                        {user?.name}
                     </p>
                     <p className="mt-1 font-inter text-xs text-[#7B1113]">
-                        admin@coasther.com
+                        {user?.email}
                     </p>
 
                     <button
