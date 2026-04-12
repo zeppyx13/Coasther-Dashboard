@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import type { ComplaintsResponse } from "@/types/dashboard";
-import type { DashboardStatsResponse, ChartDataPoint, DashboardChartResponse } from "@/types/dashboard-api";
+import type { DashboardStatsResponse, ChartDataPoint, DashboardChartResponse, DashboardSummaryResponse } from "@/types/dashboard-api";
 import { getToken } from "./auth";
 
 export async function getDashboardStats() {
@@ -31,4 +31,9 @@ export async function getDashboardChart(months = 8) {
         params: { months },
     });
     return response.data;
+}
+
+export async function getDashboardSummary() {
+    const response = await api.get<DashboardSummaryResponse>("/api/dashboard/summary");
+    return response.data.data;
 }

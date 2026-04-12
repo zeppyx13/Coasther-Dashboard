@@ -25,3 +25,15 @@ export type DashboardChartResponse = {
         chart: ChartDataPoint[];
     };
 };
+export type DashboardSummaryResponse = {
+    success: boolean;
+    message: string;
+    data: {
+        totalIncome: number;
+        occupiedRooms: number;
+        totalRooms: number;
+        paidInvoices: number;
+        unpaidInvoices: number;
+        highestUsageRoom: string | null;
+    };
+};

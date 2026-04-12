@@ -4,7 +4,6 @@ import DashboardShell from "@/components/dashboard/nav/dashboard-shell";
 import ChartPlaceholder from "@/components/dashboard/chart-placeholder";
 import ComplaintsSection from "@/components/dashboard/complaint/complaints-section";
 import RoomsSection from "@/components/dashboard/rooms/rooms-section";
-import SummaryCard from "@/components/dashboard/summary-card";
 import DashboardStatsSection from "@/components/dashboard/stat/dashboard-stats-section";
 import {
     monthlyUsage,
@@ -12,6 +11,7 @@ import {
     sidebarMenus,
     summaryItems,
 } from "@/lib/dashboard-data";
+import SummarySection from "@/components/dashboard/Summary/summary-section";
 
 export default function AdminDashboardPage() {
     return (
@@ -25,10 +25,7 @@ export default function AdminDashboardPage() {
 
             <section className="grid gap-6 xl:grid-cols-3">
                 <RoomsSection />
-                <SummaryCard
-                    totalIncome="Rp5.420.000"
-                    items={summaryItems}
-                />
+                <SummarySection />
             </section>
         </DashboardShell>
     );
