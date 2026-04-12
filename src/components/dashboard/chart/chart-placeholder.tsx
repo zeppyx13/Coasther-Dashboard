@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { TrendingUp, Droplets, Zap } from "lucide-react";
-import SectionCard from "./section-card";
+import SectionCard from "../section-card";
 import { getDashboardChart } from "@/lib/dashboard-api";
 import type { ChartDataPoint } from "@/types/dashboard-api";
 
@@ -53,8 +53,8 @@ export default function UsageChart() {
                 <button
                     onClick={() => setMode("water")}
                     className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-inter text-xs transition-colors ${mode === "water"
-                            ? "bg-[#7B1113] text-white"
-                            : "bg-[#F0F0F0] text-[#666] hover:bg-[#E5E5E5]"
+                        ? "bg-[#7B1113] text-white"
+                        : "bg-[#F0F0F0] text-[#666] hover:bg-[#E5E5E5]"
                         }`}
                 >
                     <Droplets size={12} />
@@ -63,8 +63,8 @@ export default function UsageChart() {
                 <button
                     onClick={() => setMode("elec")}
                     className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-inter text-xs transition-colors ${mode === "elec"
-                            ? "bg-[#7B1113] text-white"
-                            : "bg-[#F0F0F0] text-[#666] hover:bg-[#E5E5E5]"
+                        ? "bg-[#7B1113] text-white"
+                        : "bg-[#F0F0F0] text-[#666] hover:bg-[#E5E5E5]"
                         }`}
                 >
                     <Zap size={12} />
@@ -94,7 +94,8 @@ export default function UsageChart() {
                     !isError &&
                     chart.map((d) => {
                         const val = mode === "water" ? d.water_used : d.elec_used;
-                        const barH = Math.max((val / max) * BAR_MAX_PX, 4);
+                        const BAR_MIN_PX = 20;
+                        const barH = Math.max((val / max) * BAR_MAX_PX, BAR_MIN_PX);
                         const isCurrentMonth =
                             d.month === new Date().toISOString().slice(0, 7);
 
@@ -106,10 +107,13 @@ export default function UsageChart() {
                                 <div className="invisible absolute bottom-full mb-2 left-1/2 -translate-x-1/2 group-hover:visible rounded-lg bg-[#2F2F2F] px-2 py-1 text-xs text-white whitespace-nowrap z-10">
                                     {val.toFixed(2)} {mode === "water" ? "m³" : "kWh"}
                                 </div>
+                                {val > 0 && val / max < 0.1 && (
+                                    <span className="font-inter text-[10px] text-[#999]">
+                                        {val.toFixed(1)}
+                                    </span>
+                                )}
                                 <div
-                                    className={`w-full rounded-t-2xl transition-all duration-300 ${isCurrentMonth
-                                            ? "bg-[#7B1113]"
-                                            : "bg-[#7B1113]/70"
+                                    className={`w-full rounded-t-2xl transition-all duration-300 ${isCurrentMonth ? "bg-[#7B1113]" : "bg-[#7B1113]/70"
                                         }`}
                                     style={{ height: `${barH}px` }}
                                 />

@@ -1,7 +1,7 @@
 "use client";
 
 import DashboardShell from "@/components/dashboard/nav/dashboard-shell";
-import ChartPlaceholder from "@/components/dashboard/chart-placeholder";
+import ChartPlaceholder from "@/components/dashboard/chart/chart-placeholder";
 import ComplaintsSection from "@/components/dashboard/complaint/complaints-section";
 import RoomsSection from "@/components/dashboard/rooms/rooms-section";
 import DashboardStatsSection from "@/components/dashboard/stat/dashboard-stats-section";

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import DashboardSidebar from "./dashboard-sidebar";
-import DashboardTopbar from "../dashboard-topbar";
+import DashboardTopbar from "./dashboard-topbar";
 import type { SidebarMenuItem } from "@/types/dashboard";
 
 type DashboardShellProps = {
