@@ -1,3 +1,6 @@
+"use client";
+
+import Link from "next/link";
 import SectionCard from "../section-card";
 
 type RoomItem = {
@@ -24,9 +27,12 @@ export default function RoomsTable({ rooms }: RoomsTableProps) {
                     </h3>
                 </div>
 
-                <button className="rounded-2xl bg-[#7B1113] px-4 py-2 font-poppins text-sm font-semibold text-[#C6A971] transition hover:opacity-90">
+                <Link
+                    href="/dashboard/kamar"
+                    className="rounded-2xl bg-[#7B1113] px-4 py-2 font-poppins text-sm font-semibold text-[#C6A971] transition hover:opacity-90"
+                >
                     Lihat Semua
-                </button>
+                </Link>
             </div>
 
             <div className="mt-6 overflow-x-auto">
