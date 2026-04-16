@@ -1,11 +1,11 @@
 import DashboardShell from "@/components/dashboard/nav/dashboard-shell";
-import RoomListSection from "@/components/kamar/room-list-section";
+import TenantListSection from "@/components/penghuni/tenant-list-section";
 import { sidebarMenus } from "@/lib/dashboard-data";
 
-export default function KamarPage() {
+export default function PenghuniPage() {
     return (
         <DashboardShell menus={sidebarMenus}>
-            <RoomListSection />
+            <TenantListSection />
         </DashboardShell>
     );
 }

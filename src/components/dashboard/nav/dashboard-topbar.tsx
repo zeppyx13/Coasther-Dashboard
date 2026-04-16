@@ -2,13 +2,24 @@
 
 import { Bell, Search, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { getUser } from "@/lib/auth";
 
 type DashboardTopbarProps = {
     onMenuClick: () => void;
 };
 
+const PAGE_TITLES: Record<string, { label: string; title: string }> = {
+    "/dashboard": { label: "Selamat datang kembali", title: "Dashboard Overview" },
+    "/dashboard/kamar": { label: "Manajemen", title: "Data Kamar" },
+    "/dashboard/penghuni": { label: "Manajemen", title: "Data Penghuni" },
+    "/dashboard/tagihan": { label: "Keuangan", title: "Data Tagihan" },
+    "/dashboard/pembayaran": { label: "Keuangan", title: "Data Pembayaran" },
+    "/dashboard/pengaturan": { label: "Sistem", title: "Pengaturan" },
+};
+
 export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
+    const pathname = usePathname();
     const [user, setUser] = useState<{ name?: string } | null>(null);
 
     useEffect(() => {
@@ -16,34 +27,52 @@ export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
     }, []);
 
     const firstName = user?.name?.split(" ")[0] ?? "Admin";
+    const page = PAGE_TITLES[pathname] ?? { label: "Manajemen", title: "Dashboard" };
 
     return (
         <header className="sticky top-0 z-10 border-b border-[#EAEAEA] bg-white/90 backdrop-blur">
             <div className="flex items-center gap-4 px-6 py-4">
 
+                {/* Hamburger — mobile only */}
                 <button
+                    title="Collapse Sidebar"
                     type="button"
                     onClick={onMenuClick}
-                    title="Open menu"
+                    suppressHydrationWarning
                     className="rounded-xl border border-[#EAEAEA] p-2 transition hover:bg-[#F8F8F8] lg:hidden"
                 >
                     <Menu size={20} className="text-[#555]" />
                 </button>
 
+                {/* Greeting + Title */}
                 <div className="flex-1">
                     <p className="font-inter text-sm text-[#666]">
-                        Selamat datang kembali,{" "}
-                        <span className="font-semibold text-[#2F2F2F]">{firstName}</span>
+                        {pathname === "/dashboard"
+                            ? <>Selamat datang kembali, <span className="font-semibold text-[#2F2F2F]">{firstName}</span> 👋</>
+                            : page.label
+                        }
                     </p>
                     <h2 className="font-poppins text-xl font-bold text-[#2F2F2F] md:text-2xl">
-                        Dashboard Overview
+                        {page.title}
                     </h2>
                 </div>
 
+                {/* Actions */}
                 <div className="flex items-center gap-3">
+                    <div className="hidden items-center gap-2 rounded-2xl border border-[#EAEAEA] bg-[#FAFAFA] px-4 py-3 sm:flex">
+                        <Search size={18} className="text-[#666]" />
+                        <input
+                            type="text"
+                            placeholder="Cari data..."
+                            suppressHydrationWarning
+                            className="w-40 bg-transparent font-inter text-sm outline-none placeholder:text-[#999]"
+                        />
+                    </div>
+
                     <button
                         type="button"
                         title="Notifications"
+                        suppressHydrationWarning
                         className="rounded-2xl border border-[#EAEAEA] bg-white p-3 transition hover:bg-[#F8F8F8]"
                     >
                         <Bell size={18} className="text-[#7B1113]" />
