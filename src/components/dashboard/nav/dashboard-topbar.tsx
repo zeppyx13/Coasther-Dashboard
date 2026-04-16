@@ -49,7 +49,7 @@ export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
                 </button>
 
                 {/* Greeting + Title */}
-                <div className="flex-1">
+                <div className="flex-1 text-right">
                     <p className="font-inter text-sm text-[#666]">
                         {pathname === "/dashboard"
                             ? <>Selamat datang kembali, <span className="font-semibold text-[#2F2F2F]">{firstName}</span> 👋</>
@@ -59,28 +59,6 @@ export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
                     <h2 className="font-poppins text-xl font-bold text-[#2F2F2F] md:text-2xl">
                         {page.title}
                     </h2>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-3">
-                    <div className="hidden items-center gap-2 rounded-2xl border border-[#EAEAEA] bg-[#FAFAFA] px-4 py-3 sm:flex">
-                        <Search size={18} className="text-[#666]" />
-                        <input
-                            type="text"
-                            placeholder="Cari data..."
-                            suppressHydrationWarning
-                            className="w-40 bg-transparent font-inter text-sm outline-none placeholder:text-[#999]"
-                        />
-                    </div>
-
-                    <button
-                        type="button"
-                        title="Notifications"
-                        suppressHydrationWarning
-                        className="rounded-2xl border border-[#EAEAEA] bg-white p-3 transition hover:bg-[#F8F8F8]"
-                    >
-                        <Bell size={18} className="text-[#7B1113]" />
-                    </button>
                 </div>
             </div>
         </header>

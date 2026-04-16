@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import SidebarItem from "./sidebar-item";
 import type { SidebarIconName, SidebarMenuItem } from "@/types/dashboard";
 import { clearAuth, getUser } from "@/lib/auth";
+import Image from "next/image";
 
 type DashboardSidebarProps = {
     menus: SidebarMenuItem[];
@@ -63,12 +64,23 @@ export default function DashboardSidebar({ menus }: DashboardSidebarProps) {
     return (
         <aside className="hidden w-72 flex-col border-r border-[#EAEAEA] bg-white lg:flex">
             <div className="border-b border-[#EAEAEA] px-6 py-5">
-                <p className="font-inter text-xs font-medium uppercase tracking-[0.2em] text-[#7B1113]">
-                    Coasther
-                </p>
-                <h1 className="mt-2 font-poppins text-2xl font-bold text-[#2F2F2F]">
-                    Admin Panel
-                </h1>
+                <div className="flex items-center gap-3">
+                    <Image
+                        src="/coasther.png"
+                        alt="Coasther Logo"
+                        width={50}
+                        height={50}
+                        className="rounded-xl object-contain"
+                    />
+                    <div>
+                        <p className="font-inter text-xs font-medium uppercase tracking-[0.2em] text-[#7B1113]">
+                            Coasther
+                        </p>
+                        <h1 className="mt-0.5 font-poppins text-xl font-bold text-[#2F2F2F]">
+                            Admin Panel
+                        </h1>
+                    </div>
+                </div>
             </div>
 
             <nav className="flex-1 px-4 py-6">

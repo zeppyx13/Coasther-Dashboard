@@ -12,7 +12,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import type { SidebarIconName, SidebarMenuItem } from "@/types/dashboard";
 import { clearAuth, getUser } from "@/lib/auth";
-
+import Image from "next/image";
 const iconMap: Record<SidebarIconName, LucideIcon> = {
     home: Home,
     bedDouble: BedDouble,
@@ -80,17 +80,26 @@ export default function MobileDrawer({ menus, open, onClose }: MobileDrawerProps
                     }`}
             >
                 <div className="flex items-center justify-between border-b border-[#EAEAEA] px-6 py-5">
-                    <div>
-                        <p className="font-inter text-xs font-medium uppercase tracking-[0.2em] text-[#7B1113]">
-                            Coasther
-                        </p>
-                        <h1 className="mt-1 font-poppins text-xl font-bold text-[#2F2F2F]">
-                            Admin Panel
-                        </h1>
+                    <div className="flex items-center gap-3">
+                        <Image
+                            src="/coasther.png"
+                            alt="Coasther Logo"
+                            width={40}
+                            height={40}
+                            className="rounded-xl object-contain"
+                        />
+                        <div>
+                            <p className="font-inter text-xs font-medium uppercase tracking-[0.2em] text-[#7B1113]">
+                                Coasther
+                            </p>
+                            <h1 className="mt-0.5 font-poppins text-xl font-bold text-[#2F2F2F]">
+                                Admin Panel
+                            </h1>
+                        </div>
                     </div>
                     <button
+                        title="close"
                         onClick={onClose}
-                        title="Close drawer"
                         className="rounded-xl p-2 transition hover:bg-[#F0F0F0]"
                     >
                         <X size={18} className="text-[#666]" />
