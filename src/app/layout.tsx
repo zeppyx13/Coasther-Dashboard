@@ -15,6 +15,9 @@ const poppins = Poppins({
 export const metadata = {
   title: "Coasther Admin",
   description: "Admin dashboard Coasther",
+  icons: {
+    icon: "/coasther.ico",
+  },
 };
 
 export default function RootLayout({
