@@ -12,7 +12,12 @@ export type SidebarIconName =
     | "users"
     | "fileText"
     | "creditCard"
-    | "settings";
+    | "settings"
+    | "messageSquare"   // keluhan
+    | "fileCheck"       // kontrak sewa
+    | "megaphone"       // pengumuman
+    | "sparkles"        // fasilitas
+    | "cpu";            // IoT meter
 
 export type SidebarMenuItem = {
     label: string;

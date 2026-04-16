@@ -15,7 +15,11 @@ const PAGE_TITLES: Record<string, { label: string; title: string }> = {
     "/dashboard/penghuni": { label: "Manajemen", title: "Data Penghuni" },
     "/dashboard/tagihan": { label: "Keuangan", title: "Data Tagihan" },
     "/dashboard/pembayaran": { label: "Keuangan", title: "Data Pembayaran" },
-    "/dashboard/pengaturan": { label: "Sistem", title: "Pengaturan" },
+    "/dashboard/keluhan": { label: "Manajemen", title: "Keluhan Penghuni" },
+    "/dashboard/kontrak": { label: "Manajemen", title: "Kontrak Sewa" },
+    "/dashboard/pengumuman": { label: "Manajemen", title: "Pengumuman" },
+    "/dashboard/fasilitas": { label: "Manajemen", title: "Data Fasilitas" },
+    "/dashboard/iot": { label: "IoT", title: "Alat IoT / Meter" },
 };
 
 export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {

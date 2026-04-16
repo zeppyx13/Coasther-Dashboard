@@ -17,7 +17,11 @@ export const sidebarMenus: SidebarMenuItem[] = [
     { label: "Penghuni", iconName: "users", href: "/dashboard/penghuni" },
     { label: "Tagihan", iconName: "fileText", href: "/dashboard/tagihan" },
     { label: "Pembayaran", iconName: "creditCard", href: "/dashboard/pembayaran" },
-    { label: "Pengaturan", iconName: "settings", href: "/dashboard/pengaturan" },
+    { label: "Keluhan", iconName: "messageSquare", href: "/dashboard/keluhan" },
+    { label: "Kontrak", iconName: "fileCheck", href: "/dashboard/kontrak" },
+    { label: "Pengumuman", iconName: "megaphone", href: "/dashboard/pengumuman" },
+    { label: "Fasilitas", iconName: "sparkles", href: "/dashboard/fasilitas" },
+    { label: "Alat IoT", iconName: "cpu", href: "/dashboard/iot" },
 ];
 
 export const rooms: RoomItem[] = [

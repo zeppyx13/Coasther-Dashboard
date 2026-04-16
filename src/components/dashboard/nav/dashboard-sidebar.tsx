@@ -3,6 +3,7 @@
 import {
     LogOut, Home, BedDouble, Users,
     FileText, CreditCard, Settings,
+    MessageSquare, FileCheck, Megaphone, Sparkles, Cpu,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
@@ -23,6 +24,11 @@ const iconMap: Record<SidebarIconName, LucideIcon> = {
     fileText: FileText,
     creditCard: CreditCard,
     settings: Settings,
+    messageSquare: MessageSquare,
+    fileCheck: FileCheck,
+    megaphone: Megaphone,
+    sparkles: Sparkles,
+    cpu: Cpu,
 };
 
 export default function DashboardSidebar({ menus }: DashboardSidebarProps) {
