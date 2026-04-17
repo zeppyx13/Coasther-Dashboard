@@ -201,7 +201,7 @@ export default function MeterFormModal({ open, editData, onClose, onSubmit }: Pr
                             className={`relative h-6 w-11 rounded-full transition-colors ${form.is_active ? "bg-[#7B1113]" : "bg-[#D1D1D1]"
                                 }`}
                         >
-                            <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${form.is_active ? "translate-x-5" : "translate-x-0.5"
+                            <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${form.is_active ? "translate-x-0.5" : "-translate-x-full"
                                 }`} />
                         </button>
                         <span className="font-inter text-sm text-[#555]">
