@@ -10,8 +10,10 @@ export type Room = {
     is_occupied: boolean | number;
     created_at: string;
     updated_at: string;
+    facilities?: { id: number; name: string }[];
+    review_avg?: number;
+    review_count?: number;
 };
-
 export type RoomWithFacilities = Room & {
     facilities: { id: number; name: string }[];
 };

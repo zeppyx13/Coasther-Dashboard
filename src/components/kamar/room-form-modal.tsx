@@ -7,6 +7,7 @@ import type { Room, RoomFormPayload } from "@/types/room";
 import { getFacilities } from "@/lib/facility-api";
 import { api } from "@/lib/api";
 import { getToken } from "@/lib/auth";
+import { getRoomById } from "@/lib/room-api";
 
 type RoomFormModalProps = {
     open: boolean;
@@ -64,7 +65,15 @@ export default function RoomFormModal({
     const allFacilities = facilityData?.facilities ?? [];
 
     useEffect(() => {
+        if (!open) return;
+
         if (editData) {
+            getRoomById(editData.id).then((detail) => {
+                const ids = (detail.room.facilities ?? [])
+                    .map((f: { id: number }) => Number(f.id))
+                    .filter((id) => id > 0);
+                setForm((prev) => ({ ...prev, facility_ids: ids }));
+            }).catch(() => { });
             setForm({
                 number: editData.number,
                 floor: editData.floor,
@@ -73,9 +82,10 @@ export default function RoomFormModal({
                 is_available: Boolean(editData.is_available),
                 description: editData.description ?? "",
                 main_image_url: editData.main_image_url ?? "",
-                facility_ids: [],
+                facility_ids: [], // sementara kosong, diisi setelah fetch
             });
-            // Tampilkan preview foto lama jika ada
+
+            // Preview foto lama
             if (editData.main_image_url) {
                 const url = editData.main_image_url.startsWith("http")
                     ? editData.main_image_url
@@ -84,6 +94,15 @@ export default function RoomFormModal({
             } else {
                 setPreviewUrl(null);
             }
+
+            // Fetch fasilitas yang sudah dimiliki kamar ini
+            getRoomById(editData.id).then((detail) => {
+                const ids = (detail.room.facilities ?? []).map((f: { id: number }) => f.id);
+                setForm((prev) => ({ ...prev, facility_ids: ids }));
+            }).catch(() => {
+                console.warn("Gagal fetch detail kamar, fasilitas tidak terisi");
+            });
+
         } else {
             setForm(EMPTY_FORM);
             setPreviewUrl(null);

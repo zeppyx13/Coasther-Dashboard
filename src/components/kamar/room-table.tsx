@@ -1,7 +1,9 @@
 "use client";
 
 import { Pencil, Trash2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import type { Room } from "@/types/room";
+import { getFacilities } from "@/lib/facility-api";
 
 type RoomTableProps = {
     rooms: Room[];
@@ -18,6 +20,13 @@ function formatRupiah(value: number) {
 }
 
 export default function RoomTable({ rooms, onEdit, onDelete }: RoomTableProps) {
+    const { data: facilityData } = useQuery({
+        queryKey: ["facilities"],
+        queryFn: getFacilities,
+        staleTime: 5 * 60 * 1000,
+    });
+    const totalFacilities = facilityData?.facilities?.length ?? 0;
+
     if (rooms.length === 0) {
         return (
             <div className="rounded-3xl border border-[#EAEAEA] bg-white px-6 py-16 text-center">
@@ -35,6 +44,7 @@ export default function RoomTable({ rooms, onEdit, onDelete }: RoomTableProps) {
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Lantai</th>
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Harga / Bulan</th>
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Deposit</th>
+                        <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Fasilitas</th>
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Status</th>
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Aksi</th>
                     </tr>
@@ -43,6 +53,16 @@ export default function RoomTable({ rooms, onEdit, onDelete }: RoomTableProps) {
                     {rooms.map((room, i) => {
                         const isAvailable = Boolean(room.is_available);
                         const isLast = i === rooms.length - 1;
+                        const roomFacilityCount = room.facilities?.length ?? 0;
+                        const ratio = totalFacilities > 0
+                            ? roomFacilityCount / totalFacilities
+                            : 0;
+                        const badgeStyle =
+                            ratio >= 0.7
+                                ? "bg-green-100 text-green-700"
+                                : ratio >= 0.4
+                                    ? "bg-yellow-100 text-yellow-700"
+                                    : "bg-gray-100 text-gray-600";
 
                         return (
                             <tr
@@ -62,12 +82,36 @@ export default function RoomTable({ rooms, onEdit, onDelete }: RoomTableProps) {
                                     {formatRupiah(room.deposit)}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <span
-                                        className={`rounded-full px-3 py-1 font-inter text-xs font-medium ${isAvailable
-                                                ? "bg-green-100 text-green-700"
-                                                : "bg-red-100 text-red-700"
-                                            }`}
-                                    >
+                                    <div className="group relative w-fit">
+                                        {/* Badge count */}
+                                        <span className={`rounded-full px-3 py-1 font-inter text-xs font-medium cursor-default ${badgeStyle}`}>
+                                            {roomFacilityCount}/{totalFacilities}
+                                        </span>
+                                        {/* Tooltip nama fasilitas */}
+                                        {roomFacilityCount > 0 && (
+                                            <div className="invisible absolute bottom-full left-0 z-10 mb-2 w-max max-w-xs rounded-2xl border border-[#EAEAEA] bg-white p-3 shadow-lg group-hover:visible">
+                                                <p className="mb-2 font-inter text-xs font-medium text-[#777]">
+                                                    Fasilitas kamar:
+                                                </p>
+                                                <div className="flex flex-wrap gap-1.5">
+                                                    {room.facilities?.map((f) => (
+                                                        <span
+                                                            key={f.id}
+                                                            className="rounded-xl bg-[#F8F8F8] px-2 py-0.5 font-inter text-xs text-[#555]"
+                                                        >
+                                                            {f.name}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <span className={`rounded-full px-3 py-1 text-xs font-medium ${isAvailable
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-red-100 text-red-700"
+                                        }`}>
                                         {isAvailable ? "Tersedia" : "Terisi"}
                                     </span>
                                 </td>

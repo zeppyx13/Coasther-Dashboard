@@ -13,11 +13,15 @@ export async function getRooms(params?: {
     page?: number;
     limit?: number;
 }) {
-    const response = await api.get<RoomListResponse>("/api/rooms", {
+    const response = await api.get("/api/rooms/all", {
         params,
         headers: authHeader(),
     });
-    return response.data.data;
+    const raw = response.data.data;
+    return {
+        rooms: raw.rooms ?? [],
+        meta: raw.meta ?? { total: 0, page: 1, limit: 20 },
+    };
 }
 
 export async function getRoomById(id: number) {
