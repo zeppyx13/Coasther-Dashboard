@@ -1,23 +1,34 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ComplaintsList from "./complaints-list";
 import { getComplaints } from "@/lib/dashboard-api";
+import { updateComplaintStatus } from "@/lib/complaint-api";
 
 export default function ComplaintsSection() {
+    const queryClient = useQueryClient();
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ["dashboard-complaints"],
-        queryFn: () => getComplaints(1, 10),
+        queryFn: () => getComplaints(1, 2, "open"),
+        refetchInterval: 60 * 1000,
     });
 
     const complaints = data?.data?.complaints ?? [];
 
+    async function handleUpdateStatus(id: number, status: "open" | "in_progress" | "closed") {
+        try {
+            await updateComplaintStatus(id, status);
+            queryClient.invalidateQueries({ queryKey: ["dashboard-complaints"] });
+        } catch (err) {
+            console.error("Gagal update status complaint:", err);
+        }
+    }
+
     if (isLoading) {
         return (
             <div className="rounded-3xl border border-[#EAEAEA] bg-white p-6">
-                <p className="font-inter text-sm text-[#777]">
-                    Memuat complaints...
-                </p>
+                <p className="font-inter text-sm text-[#777]">Memuat complaints...</p>
             </div>
         );
     }
@@ -30,5 +41,5 @@ export default function ComplaintsSection() {
         );
     }
 
-    return <ComplaintsList items={complaints} />;
+    return <ComplaintsList items={complaints} onUpdateStatus={handleUpdateStatus} />;
 }

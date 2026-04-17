@@ -10,7 +10,7 @@ export type Complaint = {
     room_floor: number;
     tenant_name?: string;
     tenant_email?: string;
-    description?: string;
+    description?: string | null;
 };
 
 export type ComplaintListResponse = {

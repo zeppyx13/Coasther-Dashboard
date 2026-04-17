@@ -48,6 +48,7 @@ export default function ComplaintTable({ complaints, onUpdateStatus }: Props) {
                 <thead>
                     <tr className="border-b border-[#EAEAEA]">
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Keluhan</th>
+                        <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">keterangan</th>
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Penghuni</th>
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Kamar</th>
                         <th className="px-6 py-4 text-left font-inter text-xs font-medium text-[#777]">Tanggal</th>
@@ -67,6 +68,11 @@ export default function ComplaintTable({ complaints, onUpdateStatus }: Props) {
                                 <td className="px-6 py-4 max-w-xs">
                                     <p className="font-poppins text-sm font-semibold text-[#2F2F2F] line-clamp-1">
                                         {c.title}
+                                    </p>
+                                </td>
+                                <td className="px-6 py-4 max-w-xs">
+                                    <p className="font-poppins text-sm font-medium text-[#2F2F2F] line-clamp-1">
+                                        {c.description ?? "-"}
                                     </p>
                                 </td>
                                 <td className="px-6 py-4">

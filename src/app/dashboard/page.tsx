@@ -6,10 +6,7 @@ import ComplaintsSection from "@/components/dashboard/complaint/complaints-secti
 import RoomsSection from "@/components/dashboard/rooms/rooms-section";
 import DashboardStatsSection from "@/components/dashboard/stat/dashboard-stats-section";
 import {
-    monthlyUsage,
-    rooms,
     sidebarMenus,
-    summaryItems,
 } from "@/lib/dashboard-data";
 import SummarySection from "@/components/dashboard/Summary/summary-section";
 

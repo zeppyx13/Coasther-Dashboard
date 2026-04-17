@@ -8,16 +8,14 @@ export async function getDashboardStats() {
     return response.data.data;
 }
 
-export async function getComplaints(page = 1, limit = 10) {
+export async function getComplaints(page = 1, limit = 10, status?: string) {
     const token = getToken();
-
     const response = await api.get<ComplaintsResponse>("/api/complaints/admin/complaints", {
-        params: { page, limit },
+        params: { page, limit, ...(status ? { status } : {}) },
         headers: {
             Authorization: token ? `Bearer ${token}` : "",
         },
     });
-
     return response.data;
 }
 
