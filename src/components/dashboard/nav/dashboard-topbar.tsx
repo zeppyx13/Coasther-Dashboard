@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { getUser } from "@/lib/auth";
@@ -20,6 +20,7 @@ const PAGE_TITLES: Record<string, { label: string; title: string }> = {
     "/dashboard/pengumuman": { label: "Manajemen", title: "Pengumuman" },
     "/dashboard/fasilitas": { label: "Manajemen", title: "Data Fasilitas" },
     "/dashboard/iot": { label: "IoT", title: "Alat IoT / Meter" },
+    "/dashboard/rating": { label: "Manajemen", title: "Rating Penghuni" },
 };
 
 export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {

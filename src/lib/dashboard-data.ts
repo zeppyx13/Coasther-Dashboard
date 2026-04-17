@@ -1,41 +1,17 @@
 import type {
-    ActivityItem,
-    RoomItem,
     SidebarMenuItem,
-    StatItem,
 } from "@/types/dashboard";
-import {
-    BedDouble,
-    Users,
-    Droplets,
-    Zap,
-} from "lucide-react";
 
 export const sidebarMenus: SidebarMenuItem[] = [
     { label: "Dashboard", iconName: "home", href: "/dashboard" },
     { label: "Kamar", iconName: "bedDouble", href: "/dashboard/kamar" },
     { label: "Penghuni", iconName: "users", href: "/dashboard/penghuni" },
+    { label: "Kontrak", iconName: "fileCheck", href: "/dashboard/kontrak" },
     { label: "Tagihan", iconName: "fileText", href: "/dashboard/tagihan" },
     { label: "Pembayaran", iconName: "creditCard", href: "/dashboard/pembayaran" },
     { label: "Keluhan", iconName: "messageSquare", href: "/dashboard/keluhan" },
-    { label: "Kontrak", iconName: "fileCheck", href: "/dashboard/kontrak" },
     { label: "Pengumuman", iconName: "megaphone", href: "/dashboard/pengumuman" },
-    { label: "Fasilitas", iconName: "sparkles", href: "/dashboard/fasilitas" },
     { label: "Alat IoT", iconName: "cpu", href: "/dashboard/iot" },
-];
-
-export const rooms: RoomItem[] = [
-    { name: "Kamar A1", tenant: "Bagus Mahardika", status: "Terisi", bill: "Rp450.000" },
-    { name: "Kamar A2", tenant: "-", status: "Kosong", bill: "-" },
-    { name: "Kamar B1", tenant: "Rama Wijaya", status: "Terisi", bill: "Rp520.000" },
-    { name: "Kamar B2", tenant: "Nanda Putri", status: "Terisi", bill: "Rp490.000" },
-];
-
-export const monthlyUsage = [45, 62, 58, 80, 66, 72, 90, 76];
-
-export const summaryItems = [
-    { label: "Kamar terisi", value: "10/12" },
-    { label: "Tagihan lunas", value: "8" },
-    { label: "Belum bayar", value: "2" },
-    { label: "Pemakaian tertinggi", value: "Kamar B1" },
+    { label: "Fasilitas", iconName: "sparkles", href: "/dashboard/fasilitas" },
+    { label: "Rating", iconName: "star", href: "/dashboard/rating" },
 ];

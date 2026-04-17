@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import type { ComplaintsResponse } from "@/types/dashboard";
-import type { DashboardStatsResponse, ChartDataPoint, DashboardChartResponse, DashboardSummaryResponse } from "@/types/dashboard-api";
+import type { DashboardStatsResponse, DashboardChartResponse, DashboardSummaryResponse } from "@/types/dashboard-api";
 import { getToken } from "./auth";
 
 export async function getDashboardStats() {

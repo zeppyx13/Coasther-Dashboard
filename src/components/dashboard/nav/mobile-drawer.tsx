@@ -3,7 +3,7 @@
 import {
     LogOut, Home, BedDouble, Users,
     FileText, CreditCard, Settings, X,
-    MessageSquare, FileCheck, Megaphone, Sparkles, Cpu
+    MessageSquare, FileCheck, Megaphone, Sparkles, Cpu, Star,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -25,6 +25,7 @@ const iconMap: Record<SidebarIconName, LucideIcon> = {
     megaphone: Megaphone,
     sparkles: Sparkles,
     cpu: Cpu,
+    star: Star,
 };
 
 type MobileDrawerProps = {
