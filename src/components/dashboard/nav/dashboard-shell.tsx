@@ -6,6 +6,7 @@ import DashboardSidebar from "./dashboard-sidebar";
 import MobileDrawer from "./mobile-drawer";
 import DashboardTopbar from "./dashboard-topbar";
 import type { SidebarMenuItem } from "@/types/dashboard";
+import AdminChat from "../ai-chat/admin-chat";
 
 type DashboardShellProps = {
     menus: SidebarMenuItem[];
@@ -31,6 +32,7 @@ export default function DashboardShell({ menus, children }: DashboardShellProps)
                     <div className="space-y-6 p-6">{children}</div>
                 </section>
             </div>
+            <AdminChat />
         </main>
     );
 }
