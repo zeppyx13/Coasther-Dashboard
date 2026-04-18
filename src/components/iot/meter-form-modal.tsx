@@ -1,5 +1,8 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import { getRooms } from "@/lib/room-api";
+import { getMeters } from "@/lib/meter-api";
 import { useEffect, useState } from "react";
 import { X, LoaderCircle } from "lucide-react";
 import type { Meter, MeterFormPayload, MeterUpdatePayload } from "@/types/meter";
@@ -22,6 +25,31 @@ export default function MeterFormModal({ open, editData, onClose, onSubmit }: Pr
     });
     const [loading, setLoading] = useState(false);
 
+    // Fetch semua kamar
+    const { data: roomData } = useQuery({
+        queryKey: ["rooms-all-dropdown"],
+        queryFn: () => getRooms({ limit: 100 }),
+        staleTime: 60 * 1000,
+        enabled: open && !editData,
+    });
+
+    const { data: meterData } = useQuery({
+        queryKey: ["meters"],
+        queryFn: () => getMeters(),
+        staleTime: 30 * 1000,
+        enabled: open && !editData,
+    });
+
+    const allRooms = roomData?.rooms ?? [];
+    const existingMeters = meterData?.meters ?? [];
+
+    const availableRooms = allRooms.filter((room) => {
+        const hasThisType = existingMeters.some(
+            (m) => m.room_id === room.id && m.type === form.type
+        );
+        return !hasThisType;
+    });
+
     useEffect(() => {
         if (editData) {
             setForm({
@@ -33,16 +61,24 @@ export default function MeterFormModal({ open, editData, onClose, onSubmit }: Pr
                 installed_at: editData.installed_at?.slice(0, 16) ?? "",
             });
         } else {
-            setForm({ room_id: "", type: "water", device_uid: "", unit: "m3", is_active: true, installed_at: "" });
+            setForm({
+                room_id: "",
+                type: "water",
+                device_uid: "",
+                unit: "m3",
+                is_active: true,
+                installed_at: "",
+            });
         }
     }, [editData, open]);
 
-    // Auto-set unit saat type berubah
+    // Reset room_id saat tipe berubah karena daftar kamar tersedia berubah
     function handleTypeChange(type: "water" | "electricity") {
         setForm((prev) => ({
             ...prev,
             type,
             unit: type === "water" ? "m3" : "kwh",
+            room_id: "", // reset pilihan kamar
         }));
     }
 
@@ -91,23 +127,6 @@ export default function MeterFormModal({ open, editData, onClose, onSubmit }: Pr
                 </div>
 
                 <div className="mt-5 space-y-4">
-                    {/* Room ID — hanya saat tambah */}
-                    {!editData && (
-                        <div>
-                            <label className="mb-1.5 block font-inter text-sm font-medium text-[#2F2F2F]">
-                                ID Kamar <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="number"
-                                value={form.room_id}
-                                onChange={(e) => setForm({ ...form, room_id: e.target.value })}
-                                suppressHydrationWarning
-                                placeholder="cth. 3"
-                                className="w-full rounded-2xl border border-[#EAEAEA] bg-[#FAFAFA] px-4 py-3 font-inter text-sm outline-none transition focus:border-[#7B1113]"
-                            />
-                        </div>
-                    )}
-
                     {/* Info kamar saat edit */}
                     {editData && (
                         <div className="rounded-2xl bg-[#F8F8F8] px-4 py-3">
@@ -119,7 +138,7 @@ export default function MeterFormModal({ open, editData, onClose, onSubmit }: Pr
                         </div>
                     )}
 
-                    {/* Tipe sensor */}
+                    {/* Tipe sensor — tampil duluan agar filter kamar akurat */}
                     <div>
                         <label className="mb-1.5 block font-inter text-sm font-medium text-[#2F2F2F]">
                             Tipe Sensor <span className="text-red-500">*</span>
@@ -142,6 +161,37 @@ export default function MeterFormModal({ open, editData, onClose, onSubmit }: Pr
                             ))}
                         </div>
                     </div>
+
+                    {/* Dropdown Kamar — hanya saat tambah baru */}
+                    {!editData && (
+                        <div>
+                            <label className="mb-1.5 block font-inter text-sm font-medium text-[#2F2F2F]">
+                                Kamar <span className="text-red-500">*</span>
+                            </label>
+                            <select
+                                title="kamar"
+                                value={form.room_id}
+                                onChange={(e) => setForm({ ...form, room_id: e.target.value })}
+                                suppressHydrationWarning
+                                className="w-full rounded-2xl border border-[#EAEAEA] bg-[#FAFAFA] px-4 py-3 font-inter text-sm outline-none transition focus:border-[#7B1113]"
+                            >
+                                <option value="">-- Pilih Kamar --</option>
+                                {availableRooms.map((r) => (
+                                    <option key={r.id} value={r.id}>
+                                        Kamar {r.number}{r.floor ? ` · Lantai ${r.floor}` : ""}
+                                    </option>
+                                ))}
+                            </select>
+                            {availableRooms.length === 0 && allRooms.length > 0 && (
+                                <p className="mt-1 font-inter text-xs text-orange-500">
+                                    Semua kamar sudah memiliki sensor {form.type === "water" ? "air" : "listrik"}.
+                                </p>
+                            )}
+                            {allRooms.length === 0 && (
+                                <p className="mt-1 font-inter text-xs text-[#999]">Memuat kamar...</p>
+                            )}
+                        </div>
+                    )}
 
                     {/* Device UID */}
                     <div>
@@ -191,14 +241,14 @@ export default function MeterFormModal({ open, editData, onClose, onSubmit }: Pr
                         </div>
                     </div>
 
-                    {/* Toggle aktif */}
+                    {/* Toggle aktif — fix posisi thumb */}
                     <div className="flex items-center gap-3">
                         <button
                             title="toggle aktif"
                             type="button"
                             onClick={() => setForm({ ...form, is_active: !form.is_active })}
                             suppressHydrationWarning
-                            className={`relative h-6 w-11 rounded-full transition-colors ${form.is_active ? "bg-[#7B1113]" : "bg-[#D1D1D1]"
+                            className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${form.is_active ? "bg-[#7B1113]" : "bg-[#D1D1D1]"
                                 }`}
                         >
                             <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${form.is_active ? "translate-x-0.5" : "-translate-x-full"
@@ -219,7 +269,7 @@ export default function MeterFormModal({ open, editData, onClose, onSubmit }: Pr
                     </button>
                     <button
                         onClick={handleSubmit}
-                        disabled={loading || !form.device_uid.trim()}
+                        disabled={loading || !form.device_uid.trim() || (!editData && !form.room_id)}
                         suppressHydrationWarning
                         className="flex items-center gap-2 rounded-2xl bg-[#7B1113] px-5 py-2.5 font-poppins text-sm font-semibold text-[#C6A971] transition hover:opacity-90 disabled:opacity-50"
                     >

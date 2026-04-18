@@ -78,7 +78,7 @@ export default function IotMonitorSection() {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["iot-live-status"],
         queryFn: getAllLiveStatus,
-        refetchInterval: 30 * 1000,
+        refetchInterval: 5 * 1000,
         staleTime: 10 * 1000,
     });
 
