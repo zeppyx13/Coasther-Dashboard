@@ -14,4 +14,5 @@ export const sidebarMenus: SidebarMenuItem[] = [
     { label: "Alat IoT", iconName: "cpu", href: "/dashboard/iot" },
     { label: "Fasilitas", iconName: "sparkles", href: "/dashboard/fasilitas" },
     { label: "Rating", iconName: "star", href: "/dashboard/rating" },
+    { label: "Pengaturan", iconName: "settings", href: "/dashboard/settings" },
 ];
