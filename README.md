@@ -58,18 +58,18 @@ Gunakan akun dengan role `admin` atau `manager` yang sudah terdaftar di database
 
 ## Struktur Halaman
 
-/ → Redirect ke /dashboard
-/dashboard → Halaman utama & statistik
-/dashboard/kamar → Manajemen kamar
-/dashboard/penghuni → Manajemen penghuni
-/dashboard/kontrak → Manajemen kontrak sewa
-/dashboard/tagihan → Data invoice
-/dashboard/pembayaran → Data pembayaran
-/dashboard/keluhan → Manajemen keluhan
-/dashboard/pengumuman → Manajemen pengumuman
-/dashboard/alat-iot → Monitoring & kontrol IoT
-/dashboard/fasilitas → Manajemen fasilitas
-/dashboard/settings → Pengaturan tarif
+/ → Redirect ke /dashboard <br>
+/dashboard → Halaman utama & statistik<br>
+/dashboard/kamar → Manajemen kamar<br>
+/dashboard/penghuni → Manajemen penghuni<br>
+/dashboard/kontrak → Manajemen kontrak sewa<br>
+/dashboard/tagihan → Data invoice<br>
+/dashboard/pembayaran → Data pembayaran<br>
+/dashboard/keluhan → Manajemen keluhan<br>
+/dashboard/pengumuman → Manajemen pengumuman<br>
+/dashboard/alat-iot → Monitoring & kontrol IoT<br>
+/dashboard/fasilitas → Manajemen fasilitas<br>
+/dashboard/settings → Pengaturan tarif<br>
 
 ## Build Production
 
