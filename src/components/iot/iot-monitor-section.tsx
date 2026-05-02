@@ -48,7 +48,7 @@ async function getAllLiveStatus(): Promise<LiveStatus[]> {
     return response.data.data ?? [];
 }
 
-async function sendRelay(roomId: number, command: "relay_on" | "relay_off" | "reset_nvs") {
+async function sendRelay(roomId: number, command: "relay_on" | "relay_off" | "reset_nvs" | "sync_ntp" | "reboot" | "clear_buf" | "status") {
     const response = await api.post(
         `/api/iot/relay/${roomId}`,
         { command },
@@ -128,11 +128,15 @@ export default function IotMonitorSection() {
         };
     }, []);
 
-    async function handleRelay(roomId: number, roomNumber: string, command: "relay_on" | "relay_off" | "reset_nvs") {
+    async function handleRelay(roomId: number, roomNumber: string, command: "relay_on" | "relay_off" | "reset_nvs" | "sync_ntp" | "reboot" | "clear_buf" | "status") {
         const labelMap = {
             relay_on: "menyalakan relay",
             relay_off: "mematikan relay",
             reset_nvs: "reset NVS",
+            sync_ntp: "sinkronisasi waktu NTP",
+            reboot: "reboot perangkat",
+            clear_buf: "bersihkan buffer offline",
+            status: "cek status perangkat",
         };
 
         const result = await Swal.fire({
