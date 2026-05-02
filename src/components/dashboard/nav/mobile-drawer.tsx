@@ -3,7 +3,7 @@
 import {
     LogOut, Home, BedDouble, Users,
     FileText, CreditCard, Settings, X,
-    MessageSquare, FileCheck, Megaphone, Sparkles, Cpu, Star,
+    MessageSquare, FileCheck, Megaphone, Sparkles, Cpu, Star, Terminal,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -26,6 +26,7 @@ const iconMap: Record<SidebarIconName, LucideIcon> = {
     sparkles: Sparkles,
     cpu: Cpu,
     star: Star,
+    terminal: Terminal,
 };
 
 type MobileDrawerProps = {
@@ -115,7 +116,7 @@ export default function MobileDrawer({ menus, open, onClose }: MobileDrawerProps
                             const isActive =
                                 menu.href === "/dashboard"
                                     ? pathname === "/dashboard"
-                                    : pathname.startsWith(menu.href);
+                                    : pathname === menu.href || pathname.startsWith(menu.href + "/");
 
                             return (
                                 <Link

@@ -20,6 +20,7 @@ const PAGE_TITLES: Record<string, { label: string; title: string }> = {
     "/dashboard/pengumuman": { label: "Manajemen", title: "Pengumuman" },
     "/dashboard/fasilitas": { label: "Manajemen", title: "Data Fasilitas" },
     "/dashboard/iot": { label: "IoT", title: "Alat IoT / Meter" },
+    "/dashboard/iot/terminal": { label: "IoT", title: "Remote Terminal" },
     "/dashboard/rating": { label: "Manajemen", title: "Rating Penghuni" },
 };
 

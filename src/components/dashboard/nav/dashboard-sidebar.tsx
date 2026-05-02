@@ -4,7 +4,7 @@ import {
     LogOut, Home, BedDouble, Users,
     FileText, CreditCard, Settings,
     MessageSquare, FileCheck, Megaphone, Sparkles, Cpu,
-    Star,
+    Star, Terminal,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
@@ -32,6 +32,7 @@ const iconMap: Record<SidebarIconName, LucideIcon> = {
     sparkles: Sparkles,
     cpu: Cpu,
     star: Star,
+    terminal: Terminal,
 };
 
 export default function DashboardSidebar({ menus }: DashboardSidebarProps) {
@@ -94,7 +95,7 @@ export default function DashboardSidebar({ menus }: DashboardSidebarProps) {
                         const isActive =
                             menu.href === "/dashboard"
                                 ? pathname === "/dashboard"
-                                : pathname.startsWith(menu.href);
+                                : pathname === menu.href || pathname.startsWith(menu.href + "/");
 
                         return (
                             <SidebarItem

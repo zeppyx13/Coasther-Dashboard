@@ -12,6 +12,7 @@ export const sidebarMenus: SidebarMenuItem[] = [
     { label: "Keluhan", iconName: "messageSquare", href: "/dashboard/keluhan" },
     { label: "Pengumuman", iconName: "megaphone", href: "/dashboard/pengumuman" },
     { label: "Alat IoT", iconName: "cpu", href: "/dashboard/iot" },
+    { label: "IoT Terminal", iconName: "terminal", href: "/dashboard/terminal" },
     { label: "Fasilitas", iconName: "sparkles", href: "/dashboard/fasilitas" },
     { label: "Rating", iconName: "star", href: "/dashboard/rating" },
     { label: "Pengaturan", iconName: "settings", href: "/dashboard/settings" },
